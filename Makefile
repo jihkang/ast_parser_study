@@ -30,11 +30,15 @@ wall : $(OBJS)
 
 add : $(OBJS)
 	$(CC) $(CFLAGS) $(SRCS) -o $(NAME) -I$(HDR_INC) $(HFLAG)
+
 clean :
 	rm -f $(OBJS)
 
 fclean : clean
 	rm -f $(NAME)
+
+hclean : fclean
+	rm -rf $(NAME).dSYM
 
 re : fclean all
 

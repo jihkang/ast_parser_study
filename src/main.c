@@ -74,21 +74,27 @@ int	tokenizer(t_tokenizer *tknzr, char *line)
 	return (0);
 }
 
-int main()
+void	test(int ac, char **av)
 {
-	t_tokenizer	*tknzr;
-	char		*test = "auto -n |te<<  asdf q  q;asdf -n";
-	int			r;
-
-	printf("input str : %s\n", test);
-	tknzr = malloc(sizeof(t_tokenizer));
-	r = tokenizer(tknzr, test);
-	if (r == 1)
+	int			i;
+	t_tokenizer	*tknzrs;
+	
+	if (ac == 1)
+		return ;
+	i = 1;
+	while (i < ac)
 	{
-		remove_tokenizer(tknzr);
-		return (1);
+		tknzrs = malloc(sizeof(t_tokenizer));
+		memset(tknzrs, 0, sizeof(t_tokenizer));
+		if (!tokenizer(tknzrs, av[i]))
+			make_ast(tknzrs);
+		remove_tokenizer(tknzrs);
+		i++;
 	}
-	make_ast(tknzr);
-	remove_tokenizer(tknzr);
+}
+
+int main(int ac, char **av)
+{
+	test(ac, av);
 	return (0);
 }
