@@ -2,10 +2,26 @@
 
 void	print(t_token *tkn)
 {
-	printf("{\n");
-	printf("\ttype : %s,\n", tkn->type);
-	printf("\tstring : %s\n", tkn->cmd);
-	printf("},\n");
+	t_token	*tmp_tkn;
+
+	printf("\t{\n");
+	printf("\t\ttype : %s,\n", tkn->type);
+	tmp_tkn = tkn->child;
+	if (tmp_tkn)
+	{
+		printf("\t\t{\n");
+		while (tmp_tkn)
+		{
+			printf("\t\t\t{str : %s},\n", tmp_tkn->cmd);
+			tmp_tkn = tmp_tkn->next;
+		}
+		printf("\t\t}\n");
+	}
+	else
+	{
+		printf("\t\t{value : %s},\n", tkn->cmd);
+	}
+	printf("\t},\n");
 }
 
 void	is_open(t_token *tkn)
@@ -61,7 +77,7 @@ char	*make_ast(t_tokenizer *tknzr)
 		if (chk == 0)
 			is_open(tkn);
 		else
-			print(tkn);	
+			print(tkn);
 		tkn = tkn->next;
 	}
 	is_open(NULL);

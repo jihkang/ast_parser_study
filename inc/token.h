@@ -11,6 +11,7 @@ typedef struct	s_token
 	char			type[100];
 	int				ind;
 	struct s_token	*next;
+	struct s_token	*child;
 }t_token;
 
 typedef struct	s_tokenizer

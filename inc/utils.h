@@ -9,5 +9,8 @@ char	*ft_strchr(char *str, char c);
 char	*ft_substr(char *str, int start, int end);
 int		ft_strlen(char *str);
 int		ft_strcmp(char *str, char *str2);
+char	*ft_strtrim(char *str, char c);
+char	**ft_split(char *str, char c);
+void	remove_split(char **str);
 
 #endif

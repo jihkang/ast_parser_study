@@ -77,10 +77,10 @@ int	tokenizer(t_tokenizer *tknzr, char *line)
 int main()
 {
 	t_tokenizer	*tknzr;
-	char		*test = "auto -n |te<<  asdf q;asdf -n";
+	char		*test = "auto -n |te<<  asdf q  q;asdf -n";
 	int			r;
 
-	printf("input str : %s\n\n\n", test);
+	printf("input str : %s\n", test);
 	tknzr = malloc(sizeof(t_tokenizer));
 	r = tokenizer(tknzr, test);
 	if (r == 1)
