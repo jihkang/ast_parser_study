@@ -23,11 +23,14 @@ void	is_open(t_token *tkn)
 		return ;
 	}
 	flag = 0;
-	printf("}\n");
+	printf("}");
 	if (tkn != NULL)
 	{
+		printf(",\n");
 		is_open(tkn);
 	}
+	else
+		printf("\n");
 }
 
 int		check_symbol(char *str)

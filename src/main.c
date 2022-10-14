@@ -53,7 +53,7 @@ int	tokenizer(t_tokenizer *tknzr, char *line)
 	next_ind = next_symbol(line);
 	i = next_ind;
 	if (!is_token(line[0]))
-		add_token(tknzr, ft_substr(line, 0, next_symbol(line) - 1), print_switch('\0', '\0'));
+		add_token(tknzr, ft_substr(line, 0, next_symbol(line)), print_switch('\0', '\0'));
 	while (line[i])
 	{
 		if (is_token(line[i]))
@@ -65,7 +65,8 @@ int	tokenizer(t_tokenizer *tknzr, char *line)
 			next_ind = next_symbol(line + i + 1);
 			if (!in_space(line + i + 1, next_ind))
 				return (1);
-			add_token(tknzr, ft_substr(line + i + 1, 0, next_ind), print_switch(line[i], db_flag));
+			add_token(tknzr, ft_substr(line + i + 1, 0, next_ind), \
+					print_switch(line[i], db_flag));
 			i += next_ind;
 		}
 		i++;
@@ -76,7 +77,7 @@ int	tokenizer(t_tokenizer *tknzr, char *line)
 int main()
 {
 	t_tokenizer	*tknzr;
-	char		*test = "abcd -n | auto <<  asdf q;asdf -n";
+	char		*test = "auto -n |te<<  asdf q;asdf -n";
 	int			r;
 
 	printf("input str : %s\n\n\n", test);
