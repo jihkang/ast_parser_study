@@ -28,60 +28,65 @@ char	*print_switch(char c, int db_flag)
 	return (ret);
 }
 
-void	tokenizer(t_tokenizer *tknzr, char **read_line)
+int	in_space(char *str, int e)
+{
+	int	i;
+	int	cnt;
+
+	cnt = 0;
+	i = 0;
+	while (i < e)
+	{
+		if (str[i] != ' ')
+			cnt++;
+		i++;
+	}
+	return (cnt);
+}
+
+int	tokenizer(t_tokenizer *tknzr, char *line)
 {
 	int		i;
-	int		cur_flag;
-	char	cur_char;
-	char	next_char;
 	int		db_flag;
 	int		next_ind;
 
-	if (tknzr == NULL)
-		exit(1);
-	i = 0;
-	cur_flag = 1;
-	next_ind = next_symbol(*read_line);
-	if (!is_token(*read_line[0]))
-		add_token(tknzr, ft_substr(*read_line, 0, next_symbol(*read_line) - 1), print_switch('\0', '\0'));
-	i = i + next_ind;
-	while ((*read_line)[i])
+	next_ind = next_symbol(line);
+	i = next_ind;
+	if (!is_token(line[0]))
+		add_token(tknzr, ft_substr(line, 0, next_symbol(line) - 1), print_switch('\0', '\0'));
+	while (line[i])
 	{
-		if (is_token((*read_line)[i]) || 
-			(!is_token((*read_line)[i] && i == 0)))
+		if (is_token(line[i]))
 		{
-			if (cur_flag == 0)
-			{
-				printf("??? it something wrong");
-				break ;
-			}
-			cur_char = (*read_line)[i];
-			next_char = (*read_line)[i + 1];
 			db_flag = 0;
-			if (cur_char == next_char)
+			if (line[i] == line[i + 1])
 				db_flag = 1;
 			i += db_flag;
-			next_ind = next_symbol(*read_line + i + 1);
-			add_token(tknzr, ft_substr(*read_line + i + 1, 0, next_ind),
-					print_switch(cur_char, db_flag));
+			next_ind = next_symbol(line + i + 1);
+			if (!in_space(line + i + 1, next_ind))
+				return (1);
+			add_token(tknzr, ft_substr(line + i + 1, 0, next_ind), print_switch(line[i], db_flag));
 			i += next_ind;
-		}
-		else if (cur_flag != 1 && (*read_line)[i] != 32)
-		{
-			cur_flag = 1;
 		}
 		i++;
 	}
+	return (0);
 }
 
 int main()
 {
 	t_tokenizer	*tknzr;
-	char		*test = "abcd -n | asdf q;asdf -n";
+	char		*test = "abcd -n | auto <<  asdf q;asdf -n";
+	int			r;
 
 	printf("input str : %s\n\n\n", test);
 	tknzr = malloc(sizeof(t_tokenizer));
-	tokenizer(tknzr, &test);
+	r = tokenizer(tknzr, test);
+	if (r == 1)
+	{
+		remove_tokenizer(tknzr);
+		return (1);
+	}
 	make_ast(tknzr);
 	remove_tokenizer(tknzr);
 	return (0);
